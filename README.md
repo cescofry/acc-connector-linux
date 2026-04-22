@@ -1,12 +1,46 @@
-# ACC Connector (Linux / Python)
+# ACC Connector (Python)
 
-A terminal-based tool for Linux that advertises Assetto Corsa Competizione (ACC) dedicated servers to the game's built-in server browser via UDP discovery.
+A terminal-based tool that advertises Assetto Corsa Competizione (ACC) dedicated servers to the game's built-in server browser via UDP discovery. Works on **Linux, macOS, and Windows**.
 
 This is a Python port of the [original ACC Connector](https://github.com/lonemeow/acc-connector) for Windows. It replicates the same discovery protocol and URI format but uses a terminal UI (TUI) instead of a native GUI window.
 
 ---
 
-## How it works
+## Platform support
+
+| Platform | Supported | Notes |
+|----------|-----------|-------|
+| Linux    | Yes       | All install methods work |
+| macOS    | Yes       | All install methods work |
+| Windows  | Yes       | Use `pip install` directly (see below); WSL or Git Bash needed for the `curl` script |
+
+### macOS notes
+
+No platform-specific steps needed. The `curl` install script and `pip install` both work out of the box. The TUI renders correctly in Terminal.app and iTerm2.
+
+### Windows notes
+
+The `curl` install script is bash-only. Use `pip install` directly instead:
+
+```powershell
+pip install git+https://github.com/cescofry/acc-connector-linux.git
+```
+
+Or, if you have the repository cloned:
+
+```powershell
+pip install .
+```
+
+[Windows Terminal](https://aka.ms/terminal) is recommended for the best TUI rendering experience. The built-in `cmd.exe` and older PowerShell consoles may not render the interface correctly.
+
+### Config directory
+
+On all platforms, configuration and logs are stored under `~/.config/acc-connector/` (i.e. `%USERPROFILE%\.config\acc-connector\` on Windows). This directory is created automatically on first run.
+
+---
+
+
 
 ACC's server browser discovers LAN servers by broadcasting a 6-byte UDP packet on port 8999. ACC Connector listens on that port, parses the request, and replies with the details of each configured server (name, IP, port). The game then lists those servers in its browser as if they were discovered natively on the network.
 
@@ -21,7 +55,7 @@ This is useful when ACC is running on a machine that cannot see the server by br
 
 Install dependencies:
 
-Install via curl (installs the `acc-connector` command globally):
+Install via curl (Linux/macOS — installs the `acc-connector` command globally):
 
 ```bash
 curl -sSL https://raw.githubusercontent.com/cescofry/acc-connector-linux/main/install.sh | bash
@@ -159,7 +193,7 @@ One response packet is sent per configured server.
 |----------------------|--------------------------|--------------------------------------------|
 | UI                   | Native GUI               | Terminal UI (via `textual`)                |
 | URI handler          | Registered OS handler    | CLI argument (`acc-connector "<uri>"`)     |
-| Platform             | Windows only             | Linux (and any OS with Python 3.10+)       |
-| Config location      | Windows AppData          | `~/.config/acc-connector/`                |
+| Platform             | Windows only             | Linux, macOS, Windows (Python 3.10+)       |
+| Config location      | Windows AppData          | `~/.config/acc-connector/` on all platforms |
 | Discovery protocol   | Identical                | Identical                                  |
 | URI format           | Identical                | Identical                                  |
