@@ -153,6 +153,7 @@ One response packet is sent per configured server.
 ---
 
 ## Differences from the Windows version
+[ACC-Connector Windows Git Reposiory](https://github.com/lonemeow/acc-connector)
 
 | Feature              | Windows version          | This (Linux/Python)                        |
 |----------------------|--------------------------|--------------------------------------------|
