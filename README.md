@@ -1,4 +1,4 @@
-# ACC Connector (Python)
+# ACC Connector TUI (Universal)
 
 A terminal-based tool that advertises Assetto Corsa Competizione (ACC) dedicated servers to the game's built-in server browser via UDP discovery. Works on **Linux, macOS, and Windows**.
 
