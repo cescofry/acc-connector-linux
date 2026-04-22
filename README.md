@@ -2,7 +2,7 @@
 
 A terminal-based tool for Linux that advertises Assetto Corsa Competizione (ACC) dedicated servers to the game's built-in server browser via UDP discovery.
 
-This is a Python port of the Windows ACC Connector. It replicates the same discovery protocol and URI format but uses a terminal UI (TUI) instead of a native GUI window.
+This is a Python port of the [original ACC Connector](https://github.com/lonemeow/acc-connector) for Windows. It replicates the same discovery protocol and URI format but uses a terminal UI (TUI) instead of a native GUI window.
 
 ---
 
@@ -21,8 +21,16 @@ This is useful when ACC is running on a machine that cannot see the server by br
 
 Install dependencies:
 
+Install via curl (installs the `acc-connector` command globally):
+
 ```bash
-pip install -r requirements.txt
+curl -sSL https://raw.githubusercontent.com/cescofry/acc-connector-linux/main/install.sh | bash
+```
+
+Or install manually:
+
+```bash
+pip install .
 ```
 
 ---
@@ -32,13 +40,13 @@ pip install -r requirements.txt
 Start the TUI:
 
 ```bash
-python main.py
+acc-connector
 ```
 
 Start with a server pre-loaded from a URI:
 
 ```bash
-python main.py "acc-connect://hostname:9911?name=My+Server&persistent=true"
+acc-connector "acc-connect://hostname:9911?name=My+Server&persistent=true"
 ```
 
 The URI format is identical to the Windows version's registered URI handler, so links shared from Windows users work directly as CLI arguments here.
@@ -78,6 +86,7 @@ When running, the interface shows a table of configured servers with three colum
 | `Delete` / Remove  | Remove the selected server         |
 | `t` / Discovery button | Toggle the UDP discovery listener |
 | `q`                | Quit                               |
+| `Escape`           | Cancel the Add Server dialog       |
 
 ### Adding a server
 
@@ -148,7 +157,7 @@ One response packet is sent per configured server.
 | Feature              | Windows version          | This (Linux/Python)                        |
 |----------------------|--------------------------|--------------------------------------------|
 | UI                   | Native GUI               | Terminal UI (via `textual`)                |
-| URI handler          | Registered OS handler    | CLI argument (`python main.py "<uri>"`)    |
+| URI handler          | Registered OS handler    | CLI argument (`acc-connector "<uri>"`)     |
 | Platform             | Windows only             | Linux (and any OS with Python 3.10+)       |
 | Config location      | Windows AppData          | `~/.config/acc-connector/`                |
 | Discovery protocol   | Identical                | Identical                                  |

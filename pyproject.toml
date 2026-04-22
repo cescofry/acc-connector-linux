@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "acc-connector"
+version = "0.1.0"
+description = "ACC server browser connector for Linux — UDP discovery via terminal UI"
+requires-python = ">=3.10"
+dependencies = [
+    "textual>=0.60.0",
+]
+
+[project.scripts]
+acc-connector = "main:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.hatch.build.targets.wheel]
+include = [
+    "main.py",
+    "config.py",
+    "discovery.py",
+    "models.py",
+    "tui.py",
+]

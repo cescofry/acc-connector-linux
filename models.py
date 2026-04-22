@@ -9,7 +9,7 @@ DISCOVERY_MAGIC = b"\xbf\x48"
 RESPONSE_HEADER = b"\xc0"
 RESPONSE_CONST = b"\x00\x01"
 RESPONSE_FOOTER = b"\xfa"
-MAX_NAME_LEN = 256
+MAX_NAME_LEN = 255
 
 
 @dataclass
