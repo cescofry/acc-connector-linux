@@ -8,15 +8,21 @@ This is a Python port of the [original ACC Connector](https://github.com/lonemeo
 
 ## Platform support
 
-| Platform | Supported | Notes |
-|----------|-----------|-------|
-| Linux    | Yes       | All install methods work |
-| macOS    | Yes       | All install methods work |
-| Windows  | Yes       | Use `pip install` directly (see below); WSL or Git Bash needed for the `curl` script |
+| Platform | Supported | URI handler auto-registered | Notes |
+|----------|-----------|----------------------------|-------|
+| Linux    | Yes       | Yes (via install script)   | All install methods work |
+| macOS    | Partial   | No — manual step required  | See macOS notes below |
+| Windows  | Partial   | No — manual step required  | See Windows notes below |
 
 ### macOS notes
 
-No platform-specific steps needed. The `curl` install script and `pip install` both work out of the box. The TUI renders correctly in Terminal.app and iTerm2.
+The `curl` install script and `pip install` both work, and the TUI renders correctly in Terminal.app and iTerm2. However, **macOS does not support registering a custom URI scheme for a plain CLI tool**. The OS requires a proper `.app` bundle with a `CFBundleURLTypes` entry in `Info.plist` to handle `acc-connect://` links from the browser.
+
+Until a bundled `.app` is provided, clicking **Connect** on a server browser website will do nothing on macOS. As a workaround, copy the `acc-connect://` URI from the browser and pass it manually:
+
+```bash
+acc-connector "acc-connect://hostname:9911?name=My+Server&persistent=true"
+```
 
 ### Windows notes
 
@@ -33,6 +39,12 @@ pip install .
 ```
 
 [Windows Terminal](https://aka.ms/terminal) is recommended for the best TUI rendering experience. The built-in `cmd.exe` and older PowerShell consoles may not render the interface correctly.
+
+**URI handler registration is not automatic on Windows.** The original [Windows ACC Connector](https://github.com/lonemeow/acc-connector) registers the `acc-connect://` scheme via its installer. This Python port does not currently write to the Windows registry. Until that is implemented, pass the URI manually:
+
+```powershell
+acc-connector "acc-connect://hostname:9911?name=My+Server&persistent=true"
+```
 
 ### Config directory
 
@@ -84,6 +96,12 @@ acc-connector "acc-connect://hostname:9911?name=My+Server&persistent=true"
 ```
 
 The URI format is identical to the Windows version's registered URI handler, so links shared from Windows users work directly as CLI arguments here.
+
+---
+
+## Finding servers
+
+[acc-status.jonatan.net/servers](https://acc-status.jonatan.net/servers) is an alternative ACC server browser that lists public servers with car class, track, session info, and player counts. Each server has a **Connect** button that generates an `acc-connect://` URI and (on Linux with the handler registered) will launch ACC Connector automatically.
 
 ---
 
@@ -192,7 +210,7 @@ One response packet is sent per configured server.
 | Feature              | Windows version          | This (Linux/Python)                        |
 |----------------------|--------------------------|--------------------------------------------|
 | UI                   | Native GUI               | Terminal UI (via `textual`)                |
-| URI handler          | Registered OS handler    | CLI argument (`acc-connector "<uri>"`)     |
+| URI handler          | Registered OS handler    | Registered via install script (Linux); CLI argument on macOS/Windows |
 | Platform             | Windows only             | Linux, macOS, Windows (Python 3.10+)       |
 | Config location      | Windows AppData          | `~/.config/acc-connector/` on all platforms |
 | Discovery protocol   | Identical                | Identical                                  |
